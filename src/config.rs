@@ -19,7 +19,7 @@ pub struct ConfigDatabase {
 }
 
 
-pub fn read_file(path: String) -> Result<String, String> {
+fn read_file(path: String) -> Result<String, String> {
     let mut file_content = String::new();
 
     let mut fr = fs::File::open(path)
@@ -30,4 +30,11 @@ pub fn read_file(path: String) -> Result<String, String> {
         .map_err(|e| e.to_string())?;
 
     Ok(file_content)
+}
+
+pub fn get_config(config_path: String) -> Result<Config, toml::de::Error> {
+    let cfg_text = read_file(config_path).unwrap();
+    let cfg = toml::from_str(&cfg_text)?;
+
+    Ok(cfg)
 }
