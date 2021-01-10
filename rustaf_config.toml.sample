@@ -1,0 +1,6 @@
+[server]
+port = 3000
+address = "127.0.0.1"
+
+[database]
+uri = "postgres://username:password@localhost:5432/database_name"
