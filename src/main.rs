@@ -15,6 +15,7 @@ async fn main() -> std::io::Result<()> {
         AWApp::new()
             .route("/", web::get().to(server::index))
             .route("/messages/", web::get().to(server::list_message))
+            .route("/messages/", web::post().to(server::post_message))
             .wrap(Logger::default())
     })
         .bind(format!("{}:{}", cfg.server.address, cfg.server.port))?

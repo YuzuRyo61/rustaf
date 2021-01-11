@@ -1,14 +1,13 @@
-use serde::{Serialize, Deserialize};
 use super::schema::messages;
 
 #[derive(Queryable, Serialize)]
 pub struct Messages {
     pub id: i32,
-    pub msg: String
+    pub msg: Option<String>
 }
 
-#[derive(Deserialize, Insertable)]
-#[table_name="messages"]
+#[derive(Insertable, Serialize, Deserialize)]
+#[table_name = "messages"]
 pub struct CreateMessages {
-    pub msg: String
+    pub msg: Option<String>
 }

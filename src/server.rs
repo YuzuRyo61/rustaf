@@ -14,22 +14,23 @@ pub async fn index() -> impl Responder {
 }
 
 pub async fn list_message() -> impl Responder {
-    // use crate::schema::messages::dsl::*;
-    //
-    // let conn = db_connect();
-    // let data = messages.limit(10).load::<Messages>(&conn).expect("Error loading posts");
-    // web::Json(data)
-    HttpResponse::NotImplemented().body("Now in construction")
+    use crate::schema::messages::dsl::*;
+
+    let conn = db_connect();
+    let data = messages
+        .limit(30)
+        .load::<Messages>(&conn)
+        .expect("Error loading messages");
+
+    HttpResponse::Ok().json(data)
 }
 
 pub async fn post_message(body: web::Json<CreateMessages>) -> impl Responder {
     use crate::schema::messages;
     let conn = db_connect();
-
     let res: Messages = diesel::insert_into(messages::table)
-        .values(&body)
+        .values(&*body)
         .get_result(&conn)
         .expect("Error saving new post");
-
     HttpResponse::Ok().json(res)
 }
